@@ -15,10 +15,7 @@ struct CategoryHeader: View {
                 .font(.system(size: 24, weight: .semibold))
                 .foregroundColor(.black)
             
-            Spacer()
-            
-
-            
+            Spacer()        
         }
         .frame(height: 40)
     }

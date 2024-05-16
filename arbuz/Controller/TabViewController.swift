@@ -8,11 +8,10 @@ class TabView: UITabBarController {
     }
     
     private func setupTabBar() {
-        let mainVC = UIHostingController(rootView: HomeView())
+//        let mainVC = UIHostingController(rootView: HomeView())
+        let mainVC = UINavigationController(rootViewController: HomeViewController())
         let cartVC = CartViewController()
         
-//        mainVC.tabBarItem.image = UIImage(systemName: "house.fill")
-//        cartVC.tabBarItem.image = UIImage(systemName: "cart.fill")
         mainVC.tabBarItem = UITabBarItem(title: "Главная", image: UIImage(systemName: "house.fill"), tag: 0)
         cartVC.tabBarItem = UITabBarItem(title: "Корзина", image: UIImage(systemName: "cart.fill"), tag: 1)
         

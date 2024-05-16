@@ -1,22 +1,35 @@
 import SwiftUI
+import UIKit
+
+protocol HomeViewProtocol {
+    mutating func setProducts(products: Products)
+}
 
 struct HomeView: View {
-    @StateObject var homeViewModel = HomeViewModel.shared
+
+    @StateObject var cartVM = CartViewModel.shared
+    @StateObject var homeVM = HomeViewModel.shared
+    let delegate: HomeViewDelegate
+    
     var body: some View {
         ZStack {
             ScrollView() {
                 VStack {
-                    HeaderCell()
-//                    SearchTextField(txt: $homeViewModel.textSearch)
-//                        .padding(.horizontal, 16)
+                    HeaderCell(product: homeVM.products.meals.randomElement() ?? Product(idIngredient: "1", strIngredient: "Loading", strDescription: "description"))
+
                     CategoryHeader(title: "Товары дня")
                         .padding(.horizontal, 16)
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack(spacing: 24) {
-                            ForEach(0...5, id: \.self) {
-                                index in
-                                ProductCell()
+                            ForEach(homeVM.products.meals, id: \.self) {
+                                product in
+                                ProductCell(product: product, onAddTap: {
+                                    cartVM.addToCart(product: product)
+                                }, onLikeTap: {cartVM.addToFavorites(product: product)}, inCart: cartVM.inCart(product: product))
+                                    .onTapGesture {
+                                        delegate.didTapOnProduct(product: product)
+                                    }
                             }
                         }
                     }
@@ -24,8 +37,14 @@ struct HomeView: View {
                     CategoryHeader(title: "Каталог")
                         .padding(.horizontal, 16)
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                        ForEach(0...12, id: \.self) { card in
-                            ProductCell()
+                        ForEach(homeVM.products.meals, id: \.self) { product in
+                            ProductCell(product: product, onAddTap: {
+                                cartVM.addToCart(product: product)
+                            }, onLikeTap: {cartVM.addToFavorites(product: product)}, inCart: cartVM.inCart(product: product))
+                                .onTapGesture {
+                                    delegate.didTapOnProduct(product: product)
+                                }
+
                         }
                     }                    }
                 }
@@ -33,10 +52,14 @@ struct HomeView: View {
                 
                 
             }
-        }
+        .ignoresSafeArea(.all, edges: [.horizontal])
+    }
+    
+    
+    
     }
 
 
 #Preview {
-    HomeView()
+    HomeView(delegate: HomeViewController())
 }
