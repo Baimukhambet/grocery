@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProductCell: View {
+    let product: Product
     
     var onAddTap: (()->())?
     var onLikeTap: (()->())?
@@ -15,51 +16,81 @@ struct ProductCell: View {
     
     let backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
     
+    let mockPrice = 995
+    let mockMin = 1
+    @State var inCart = false
+    @State var inFavorites = false
+    
     var body: some View {
-        VStack {
-            HStack(alignment: .top){
-                Spacer()
-                    .frame(width: 24)
-                Image("apple")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 80)
+        VStack(spacing: 6) {
+
+            ZStack(alignment: .topTrailing) {
+                AsyncImage(url: URL(string: "https://www.themealdb.com/images/ingredients/" + product.strIngredient! + ".png")!) { image in
+                    image.resizable()
+                        .scaledToFit()
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                } placeholder: {
+                    ProgressView()
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 80)
+                }
                 
-                Image(systemName: "heart")
+                
+                
+                Image(systemName: inFavorites ? "heart.fill" : "heart")
                     .resizable()
+                    .renderingMode(.template)
+                    .foregroundStyle(inFavorites ? Color.red : Color.black)
+                
                     .scaledToFit()
                     .frame(width: 24)
                     .onTapGesture {
                         onLikeTap?()
+                        inFavorites.toggle()
                     }
             }
             Spacer()
-            Text("Some Product")
-                .font(.system(size: 16, weight: .bold))
+            Text(product.strIngredient!)
+                .font(.system(size: 18, weight: .medium))
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            Text("1 шт.")
+            Text("\(mockPrice)/шт.")
                 .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(Color.gray)
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            Text("\(mockPrice)")
+                .font(.system(size: 18, weight: .bold))
+                .foregroundStyle(Color.black)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             Spacer()
             HStack {
-                Text("$99.0")
-                    .font(.system(size: 18, weight: .bold))
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                Spacer()
+//                Text("$99.0")
+//                    .font(.system(size: 18, weight: .bold))
+//                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+//                Spacer()
                 Button {
                     onAddTap?()
+                    inCart.toggle()
+                    
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
-                        Image(systemName: "plus").renderingMode(.template).foregroundStyle(Color.white)
+                        inCart ? HStack{
+                            Text("Добавить")
+                                .foregroundStyle(Color.white)
+                            Image(systemName: "plus").renderingMode(.template).foregroundStyle(Color.white)
+                        }
+                        : HStack{
+                            Text("ubrat")
+                                .foregroundStyle(Color.white)
+                            Image(systemName: "plus").renderingMode(.template).foregroundStyle(Color.white)
+                        }
                     }
                     .tint(Color.green)
-                    .frame(width: 40, height: 40)
+                    .frame(height: 40 )
                 }
             }
         }
         .padding(16)
-        .frame(width: 180, height: 210)
+        .frame(width: 180, height: 280)
         .background(Color(uiColor: backgroundColor))
 //        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.black, lineWidth: 1))
         .clipShape(.rect(cornerRadius: 16))
@@ -67,5 +98,5 @@ struct ProductCell: View {
 }
 
 #Preview {
-    ProductCell()
+    ProductCell(product: Product(idIngredient: "1", strIngredient: "Lime", strDescription: "Description"))
 }

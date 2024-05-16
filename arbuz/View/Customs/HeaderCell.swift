@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HeaderCell: View {
+    let product: Product
+    
     var body: some View {
 
         HStack {
@@ -15,7 +17,7 @@ struct HeaderCell: View {
                 .padding(16)
                 .font(.system(size: 22, weight: .semibold))
             
-            ProductCell().padding(16)
+            ProductCell(product: product).padding(16)
             
         }
         .background(Color.yellow)
@@ -25,5 +27,5 @@ struct HeaderCell: View {
 }
 
 #Preview {
-    HeaderCell()
+    HeaderCell(product: Product(idIngredient: "1", strIngredient: "Test Product", strDescription: "Description"))
 }
