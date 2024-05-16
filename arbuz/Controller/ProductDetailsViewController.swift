@@ -2,10 +2,10 @@ import UIKit
 
 class ProductDetailsViewController: UIViewController {
     
-    let productTitle: String
+    let product: Product;
     
-    init(productTitle: String) {
-        self.productTitle = productTitle
+    init(product: Product) {
+        self.product = product
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -17,9 +17,7 @@ class ProductDetailsViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        let label = UILabel()
-        label.center = view.center
-        view.addSubview(label)
+        
     }
     
     

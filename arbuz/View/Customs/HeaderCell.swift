@@ -17,12 +17,13 @@ struct HeaderCell: View {
                 .padding(16)
                 .font(.system(size: 22, weight: .semibold))
             
-            ProductCell(product: product).padding(16)
+            ProductCell(product: product, inCart: false).padding(16)
             
         }
         .background(Color.yellow)
         .clipShape(.rect(cornerRadius: 16))
-        
+//        .frame(minWidth: 0, maxWidth: .infinity)
+        .ignoresSafeArea(.all, edges: .horizontal)
     }
 }
 

@@ -9,17 +9,19 @@ import SwiftUI
 
 struct ProductCell: View {
     let product: Product
+    let homeViewModel = HomeViewModel.shared
     
     var onAddTap: (()->())?
+    var onRemoveTap: (()->())?
     var onLikeTap: (()->())?
     var isHeader: Bool?
+    var inCart: Bool
     
     let backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
     
     let mockPrice = 995
     let mockMin = 1
-    @State var inCart = false
-    @State var inFavorites = false
+    let inFavorites = false
     
     var body: some View {
         VStack(spacing: 6) {
@@ -36,16 +38,15 @@ struct ProductCell: View {
                 
                 
                 
-                Image(systemName: inFavorites ? "heart.fill" : "heart")
+                Image(systemName: homeViewModel.isFavorite(product: product) ? "heart.fill" : "heart")
                     .resizable()
                     .renderingMode(.template)
-                    .foregroundStyle(inFavorites ? Color.red : Color.black)
+                    .foregroundStyle(homeViewModel.isFavorite(product: product) ? Color.red : Color.black)
                 
                     .scaledToFit()
                     .frame(width: 24)
                     .onTapGesture {
                         onLikeTap?()
-                        inFavorites.toggle()
                     }
             }
             Spacer()
@@ -61,42 +62,52 @@ struct ProductCell: View {
                 .foregroundStyle(Color.black)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             Spacer()
-            HStack {
-//                Text("$99.0")
-//                    .font(.system(size: 18, weight: .bold))
-//                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-//                Spacer()
-                Button {
-                    onAddTap?()
-                    inCart.toggle()
-                    
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 8)
-                        inCart ? HStack{
+            
+            
+            ZStack {
+                RoundedRectangle(cornerRadius: 8)
+                Group {
+                    if inCart {
+                        HStack {
+                            Image(systemName: "trash")
+                                .foregroundStyle(Color.white)
+                                .onTapGesture {
+                                    onRemoveTap?()
+                                }
+                            Text("1шт.")
+                                .foregroundStyle(Color.white)
+                            Image(systemName: "plus")
+                                .foregroundStyle(Color.white)
+                                .onTapGesture {
+                                    onAddTap?()
+                                }
+                        }
+                    } else {
+                        HStack {
                             Text("Добавить")
                                 .foregroundStyle(Color.white)
-                            Image(systemName: "plus").renderingMode(.template).foregroundStyle(Color.white)
-                        }
-                        : HStack{
-                            Text("ubrat")
+                            Image(systemName: "plus")
                                 .foregroundStyle(Color.white)
-                            Image(systemName: "plus").renderingMode(.template).foregroundStyle(Color.white)
+                        }
+                        .onTapGesture {
+                            onAddTap?()
                         }
                     }
-                    .tint(Color.green)
-                    .frame(height: 40 )
                 }
+                
             }
+            .tint(Color.green)
+            .frame(height: 40 )
+                
+            
         }
         .padding(16)
         .frame(width: 180, height: 280)
         .background(Color(uiColor: backgroundColor))
-//        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.black, lineWidth: 1))
         .clipShape(.rect(cornerRadius: 16))
     }
 }
 
 #Preview {
-    ProductCell(product: Product(idIngredient: "1", strIngredient: "Lime", strDescription: "Description"))
+    ProductCell(product: Product(idIngredient: "1", strIngredient: "Lime", strDescription: "Description"), inCart: false)
 }

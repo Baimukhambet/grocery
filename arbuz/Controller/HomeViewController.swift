@@ -2,7 +2,7 @@ import UIKit
 import SwiftUI
 
 protocol HomeViewDelegate {
-    func didTapOnProduct(title: String);
+    func didTapOnProduct(product: Product);
     func getProducts()
 }
 
@@ -17,11 +17,11 @@ final class HomeViewController: UIViewController, HomeViewDelegate {
         getProducts()
     }
     
-    func didTapOnProduct(title: String) {
+    func didTapOnProduct(product: Product) {
         print("tapped.")
         
-        navigationController?.pushViewController(ProductDetailsViewController(productTitle: title), animated: true)
-//        present(ProductDetailsViewController(productTitle: title), animated: true)
+//        navigationController?.pushViewController(ProductDetailsViewController(productTitle: title), animated: true)
+        present(ProductDetailsViewController(product: product), animated: true)
     }
     
     func getProducts() {
