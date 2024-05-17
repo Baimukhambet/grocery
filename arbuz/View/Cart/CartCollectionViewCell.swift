@@ -14,7 +14,7 @@ class CartCollectionViewCell: UITableViewCell {
     var product: Product?
     static let reuseId = "CartItem"
     
-    lazy var cartItem = UIHostingController(rootView: CartItemView(product: product!))
+//    lazy var cartItem = UIHostingController(rootView: CartItemView(product: product!))
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -23,22 +23,27 @@ class CartCollectionViewCell: UITableViewCell {
     init(product: Product) {
         self.product = product
         super.init(style: .default, reuseIdentifier: CartCollectionViewCell.reuseId)
-        setupUI()
+//        setupUI()
     }
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.product = Product(idIngredient: "1", strIngredient: "Lemon", strDescription: "Description")
-        setupUI()
+//        self.product = Product(idIngredient: "1", strIngredient: "Lemon", strDescription: "Description")
+//        setupUI()
     }
     
-    
+    func setProduct(product: Product) {
+        self.product = product
+    }
     
     
 }
 
 //MARK: Private Extension
-private extension CartCollectionViewCell {
-    func setupUI() {
+/*private*/ extension CartCollectionViewCell {
+    func setupUI(product: Product) {
+        self.product = product
+        let cartItem = UIHostingController(rootView: CartItemView(product: product))
+        
         self.contentView.addSubview(cartItem.view)
         cartItem.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

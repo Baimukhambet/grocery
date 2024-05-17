@@ -17,7 +17,6 @@ final class CartViewModel: ObservableObject {
     }
     
     func removeFromCart(product: Product) {
-        print("REMOVING")
         if let value = cart[product] {
             if value > 1 {
                 cart[product]! -= 1
