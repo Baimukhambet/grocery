@@ -17,7 +17,7 @@ struct HeaderCell: View {
                 .padding(16)
                 .font(.system(size: 22, weight: .semibold))
             
-            ProductCell(product: product, inCart: false).padding(16)
+            ProductCell(product: product as! ProductEntity, inCart: false).padding(16)
             
         }
         .background(Color.yellow)

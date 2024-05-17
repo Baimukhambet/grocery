@@ -9,19 +9,24 @@ import SwiftUI
 
 struct ProductCell: View {
     let product: Product
-    let homeViewModel = HomeViewModel.shared
+    let homeVM = HomeViewModel.shared
+    let cartVM = CartViewModel.shared
     
     var onAddTap: (()->())?
     var onRemoveTap: (()->())?
     var onLikeTap: (()->())?
-    var isHeader: Bool?
+    var onCardTap: (()->())?
     var inCart: Bool
+//    var amount: Int?
     
     let backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
     
     let mockPrice = 995
     let mockMin = 1
     let inFavorites = false
+    
+    var width: CGFloat?
+    var height: CGFloat?
     
     var body: some View {
         VStack(spacing: 6) {
@@ -33,15 +38,15 @@ struct ProductCell: View {
                         .frame(minWidth: 0, maxWidth: .infinity)
                 } placeholder: {
                     ProgressView()
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 80)
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 }
                 
                 
                 
-                Image(systemName: homeViewModel.isFavorite(product: product) ? "heart.fill" : "heart")
+                Image(systemName: homeVM.isFavorite(product: product) ? "heart.fill" : "heart")
                     .resizable()
                     .renderingMode(.template)
-                    .foregroundStyle(homeViewModel.isFavorite(product: product) ? Color.red : Color.black)
+                    .foregroundStyle(homeVM.isFavorite(product: product) ? Color.red : Color.black)
                 
                     .scaledToFit()
                     .frame(width: 24)
@@ -53,61 +58,65 @@ struct ProductCell: View {
             Text(product.strIngredient!)
                 .font(.system(size: 18, weight: .medium))
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            Text("\(mockPrice)/шт.")
+            Text("\(product.price)₸/шт.")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundStyle(Color.gray)
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            Text("\(mockPrice)")
-                .font(.system(size: 18, weight: .bold))
-                .foregroundStyle(Color.black)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             Spacer()
             
             
             ZStack {
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 16)
                 Group {
                     if inCart {
                         HStack {
-                            Image(systemName: "trash")
-                                .foregroundStyle(Color.white)
+                            cartVM.cart[product]! > 1 ? 
+                            Image(systemName: "minus.circle").foregroundStyle(Color.white)
+//                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 40)
                                 .onTapGesture {
                                     onRemoveTap?()
                                 }
-                            Text("1шт.")
+                            : Image(systemName: "trash")
                                 .foregroundStyle(Color.white)
-                            Image(systemName: "plus")
+//                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 40)
+                                .onTapGesture {
+                                    onRemoveTap?()
+                                }
+                            Text("\(cartVM.cart[product]!)шт.")
+                                .foregroundStyle(Color.white)
+                            Image(systemName: "plus.circle")
                                 .foregroundStyle(Color.white)
                                 .onTapGesture {
                                     onAddTap?()
                                 }
+//                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 40, maxHeight: 40)
                         }
                     } else {
-                        HStack {
-                            Text("Добавить")
+                        HStack(alignment: .center) {
+                            Text("\(product.price)₸")
                                 .foregroundStyle(Color.white)
+                                .padding(.leading, 12)
+                            Spacer()
+                            
                             Image(systemName: "plus")
                                 .foregroundStyle(Color.white)
+                                .padding(.trailing, 12)
                         }
                         .onTapGesture {
                             onAddTap?()
                         }
                     }
                 }
-                
             }
             .tint(Color.green)
-            .frame(height: 40 )
-                
-            
+            .frame(width: 140, height: 40)
         }
         .padding(16)
-        .frame(width: 180, height: 280)
         .background(Color(uiColor: backgroundColor))
         .clipShape(.rect(cornerRadius: 16))
     }
 }
 
 #Preview {
-    ProductCell(product: Product(idIngredient: "1", strIngredient: "Lime", strDescription: "Description"), inCart: false)
+    ProductCell(product: Product(idIngredient: "1", strIngredient: "Lime", strDescription: "Description") as! ProductEntity, inCart: false)
 }

@@ -17,6 +17,7 @@ final class ProductService {
                     print(result)
                     
                     result.meals = Array(result.meals[0...30])
+                    result.meals.shuffle()
                     
                     completion(result)
                 } catch let error {

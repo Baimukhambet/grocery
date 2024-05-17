@@ -1,19 +1,22 @@
 import UIKit
 
 final class CartViewController: UIViewController {
-    
-    lazy var collectionView: UICollectionView = {
-        let colView = UICollectionView()
-        colView.delegate = self
-        colView.dataSource = self
-        colView.translatesAutoresizingMaskIntoConstraints = false
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(CartCollectionViewCell.self, forCellReuseIdentifier: CartCollectionViewCell.reuseId)
+        tableView.delegate = self
+        tableView.dataSource = self
         
-        return colView
+        return tableView
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        setupView()
+        setupTopBar()
     }
 
 }
@@ -22,17 +25,34 @@ final class CartViewController: UIViewController {
 
 private extension CartViewController {
     func setupView() {
-        
+        self.view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+        ])
+    }
+    
+    func setupTopBar() {
+        navigationItem.title = "Корзина"
+        let label = UILabel()
+        label.text = "Очистить"
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .gray.withAlphaComponent(0.7)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: label)
     }
 }
 
 
-extension CartViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+extension CartViewController: UITableViewDelegate, UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 8
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CartCollectionViewCell.reuseId, for: indexPath) as! CartCollectionViewCell
+        
+        return cell
     }
 }
