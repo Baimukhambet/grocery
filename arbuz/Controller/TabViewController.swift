@@ -17,5 +17,6 @@ class TabView: UITabBarController {
         
         setViewControllers([mainVC, cartVC], animated: false)
         selectedIndex = 0
+        tabBar.tintColor = .green
     }
 }

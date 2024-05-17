@@ -21,6 +21,8 @@
 		2234A52E2BF46D7B0001C4E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2234A52D2BF46D7B0001C4E5 /* Assets.xcassets */; };
 		2234A5312BF46D7B0001C4E5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 2234A5302BF46D7B0001C4E5 /* Base */; };
 		227E08322BF75386000C6759 /* CartItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E08312BF75386000C6759 /* CartItemView.swift */; };
+		227E08342BF775B1000C6759 /* CheckoutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E08332BF775B1000C6759 /* CheckoutButton.swift */; };
+		227E08382BF778E7000C6759 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E08372BF778E7000C6759 /* PaymentViewController.swift */; };
 		229402522BF4A11300D0E465 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229402512BF4A11300D0E465 /* TabViewController.swift */; };
 		229402592BF4A92600D0E465 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229402582BF4A92600D0E465 /* MainView.swift */; };
 		2294025D2BF4A98B00D0E465 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2294025C2BF4A98B00D0E465 /* CardView.swift */; };
@@ -51,6 +53,8 @@
 		2234A5302BF46D7B0001C4E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2234A5322BF46D7B0001C4E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		227E08312BF75386000C6759 /* CartItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemView.swift; sourceTree = "<group>"; };
+		227E08332BF775B1000C6759 /* CheckoutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutButton.swift; sourceTree = "<group>"; };
+		227E08372BF778E7000C6759 /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		229402512BF4A11300D0E465 /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		229402582BF4A92600D0E465 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		2294025C2BF4A98B00D0E465 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -96,6 +100,7 @@
 			children = (
 				2200939A2BF651E0005515B7 /* CartCollectionViewCell.swift */,
 				227E08312BF75386000C6759 /* CartItemView.swift */,
+				227E08332BF775B1000C6759 /* CheckoutButton.swift */,
 			);
 			path = Cart;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				229402602BF4AB3500D0E465 /* CartViewController.swift */,
 				220093872BF5FF52005515B7 /* HomeViewController.swift */,
 				220093892BF60185005515B7 /* ProductDetailsViewController.swift */,
+				227E08372BF778E7000C6759 /* PaymentViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -275,6 +281,7 @@
 				2234A5252BF46D7A0001C4E5 /* AppDelegate.swift in Sources */,
 				229402592BF4A92600D0E465 /* MainView.swift in Sources */,
 				2294026F2BF4C91400D0E465 /* HeaderCell.swift in Sources */,
+				227E08342BF775B1000C6759 /* CheckoutButton.swift in Sources */,
 				220093862BF5FF00005515B7 /* CartViewModel.swift in Sources */,
 				229402612BF4AB3500D0E465 /* CartViewController.swift in Sources */,
 				227E08322BF75386000C6759 /* CartItemView.swift in Sources */,
@@ -282,6 +289,7 @@
 				2200938A2BF60185005515B7 /* ProductDetailsViewController.swift in Sources */,
 				220093982BF64029005515B7 /* UIApplicationExtension.swift in Sources */,
 				229402672BF4C24100D0E465 /* SearchTextField.swift in Sources */,
+				227E08382BF778E7000C6759 /* PaymentViewController.swift in Sources */,
 				220093912BF615A3005515B7 /* ProductEntity.swift in Sources */,
 				2234A5272BF46D7A0001C4E5 /* SceneDelegate.swift in Sources */,
 				220093882BF5FF52005515B7 /* HomeViewController.swift in Sources */,

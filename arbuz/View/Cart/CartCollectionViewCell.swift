@@ -35,6 +35,14 @@ class CartCollectionViewCell: UITableViewCell {
         self.product = product
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        for subview in self.contentView.subviews {
+            subview.removeFromSuperview()
+        }
+    }
+    
+    
     
 }
 
@@ -45,6 +53,10 @@ class CartCollectionViewCell: UITableViewCell {
         let cartItem = UIHostingController(rootView: CartItemView(product: product))
         
         self.contentView.addSubview(cartItem.view)
+        //Clear selection View
+        let selectionView = UIView()
+        selectionView.backgroundColor = .clear
+        self.selectedBackgroundView = selectionView
         cartItem.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             cartItem.view.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),

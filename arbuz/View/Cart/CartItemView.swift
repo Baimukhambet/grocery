@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CartItemView: View {
     var product: Product
+    @StateObject var cartVM = CartViewModel.shared
+    @StateObject var homeVM = HomeViewModel.shared
     
     var body: some View {
         HStack(alignment: .top) {
@@ -22,10 +24,16 @@ struct CartItemView: View {
                         .clipShape(.rect(cornerRadius: 12))
                 } placeholder: {
                     ProgressView()
-                        .frame(minWidth: 0, maxWidth: 80, minHeight: 0, maxHeight: 80)
+                        .frame(minWidth: 80, maxWidth: 80, minHeight: 0, maxHeight: 80)
+                        .padding(12)
+                    
                 }
                 
-                Image(systemName: "heart")
+                Button {
+                    homeVM.addToFavorites(product: product)
+                } label: {
+                    homeVM.isFavorite(product: product) ? Image(systemName: "heart.fill").renderingMode(.template).foregroundStyle(Color.red) : Image(systemName: "heart").renderingMode(.template).foregroundStyle(Color.black)
+                }
                     .padding([.top, .trailing], 8)
             }
             VStack(alignment: .leading) {
@@ -40,7 +48,7 @@ struct CartItemView: View {
                 HStack(spacing: 14) {
                     // Trash icon
                     Button(action: {
-                        // Add your button action here
+                        cartVM.decrement(product: product)
                     }) {
                         Image(systemName: "trash")
                             .foregroundColor(.black)
@@ -51,7 +59,7 @@ struct CartItemView: View {
 //                    Spacer()
                     
                     // Weight text
-                    Text("1")
+                    Text("\(cartVM.cart[product] ?? 0)")
                         .foregroundColor(.black)
                         .font(.system(size: 16, weight: .medium))
                     
@@ -62,7 +70,7 @@ struct CartItemView: View {
                     
                     // Plus button
                     Button(action: {
-                        // Add your button action here
+                        cartVM.addToCart(product: product)
                     }) {
                         Image(systemName: "plus")
                             .foregroundColor(.black)
@@ -81,7 +89,12 @@ struct CartItemView: View {
             
             //delete button
             VStack(alignment: .trailing) {
-                Image(systemName: "xmark")
+                Button {
+                    cartVM.removeFromCart(product: product)
+                } label: {
+                    Image(systemName: "xmark")
+                }
+                .tint(Color.black)
                 Spacer()
                 Text("\(product.price) kzt")
                     .font(.system(size: 16, weight: .black))
