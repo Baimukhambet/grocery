@@ -2,7 +2,7 @@ import UIKit
 import SwiftUI
 
 protocol HomeViewDelegate {
-    func didTapOnProduct(product: Product);
+    func didTapOnProduct(id: String);
     func getProducts()
 }
 
@@ -17,9 +17,15 @@ final class HomeViewController: UIViewController, HomeViewDelegate {
         getProducts()
     }
     
-    func didTapOnProduct(product: Product) {
-        print("tapped.")
-        present(ProductDetailsViewController(product: product), animated: true)
+    func didTapOnProduct(id: String) {
+        productService.fetchProduct(id: id) { [self] product in
+            if let product = product {
+                DispatchQueue.main.async {
+                    self.present(ProductDetailsViewController(product: product), animated: true)
+                }
+            }
+        }
+        
     }
     
     func getProducts() {
@@ -46,6 +52,5 @@ extension HomeViewController {
         self.view.addSubview(homeViewHosting.view)
         homeViewHosting.didMove(toParent: self)
         navigationItem.title = "Главная"
-        //        navigationItem.largeTitleDisplayMode = .always
     }
 }

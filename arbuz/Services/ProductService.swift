@@ -1,8 +1,12 @@
 import Foundation
 
 final class ProductService: AbstractProductService {
+
+    //Singletone
     static let shared = ProductService()
     private let BASE_URL_STRING = "https://www.themealdb.com/api/json/v1/1/list.php"
+    
+    var products: Products = Products(meals: [])
     
     private init() {}
     
@@ -12,21 +16,39 @@ final class ProductService: AbstractProductService {
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
+                //Try to fetch products from API
                 do {
-                    var result = try JSONDecoder().decode(Products.self, from: data)
+                    var products = try JSONDecoder().decode(Products.self, from: data)
                     
-                    result.meals = Array(result.meals[0...30])
-                    result.meals.shuffle()
+                    products.meals = Array(products.meals[0...30])
+                    products.meals.shuffle()
                     
-                    completion(result)
+                    self.products = products
+                    
+                    completion(products)
                 } catch let error {
-                    completion(Products(meals: []))
+                    OfflineProductService.shared.fetchProducts { products in
+                        //Put mock data in completion
+                        self.products = products
+                        
+                        completion(products)
+                        
+                    }
+                    
                 }
             }
         }.resume()
     }
     
-    func fetchProduct() {
+    func fetchProduct(id: String, completion: @escaping (Product?) -> Void) {
+        if let foundProduct = self.products.meals.first(where: { $0.idIngredient == id}) {
+            completion(foundProduct)
+        } else {
+            completion(nil)
+        }
         
     }
+    
+    
+    
 }
