@@ -96,7 +96,7 @@ struct CartItemView: View {
                 }
                 .tint(Color.black)
                 Spacer()
-                Text("\(product.price) kzt")
+                Text("\(product.price * (cartVM.cart[product] ?? 1)) kzt")
                     .font(.system(size: 16, weight: .black))
                     .foregroundStyle(Color.black.opacity(0.75))
             }

@@ -6,6 +6,7 @@ final class CartViewModel: ObservableObject {
     private init(){}
     
     @Published var cart: Dictionary<Product, Int> = [:]
+    @Published var cartIsEmpty: Bool = true
     
     var cartAmount: Int {
         cart.reduce(0) {$0 + $1.key.price * $1.value}
@@ -18,6 +19,7 @@ final class CartViewModel: ObservableObject {
         } else {
             cart[product] = 1
         }
+        cartIsEmpty = false
     }
     
     func decrement(product: Product) {
@@ -27,6 +29,9 @@ final class CartViewModel: ObservableObject {
             } else {
                 cart.removeValue(forKey: product)
             }
+            if cart.isEmpty {
+                cartIsEmpty = true
+            }
         } else {
             return
         }
@@ -34,6 +39,9 @@ final class CartViewModel: ObservableObject {
     
     func removeFromCart(product: Product) {
         cart.removeValue(forKey: product)
+        if(cart.isEmpty) {
+            cartIsEmpty = true
+        }
     }
     
     func inCart(product: Product) -> Bool {
@@ -42,6 +50,7 @@ final class CartViewModel: ObservableObject {
     
     func clearCart() {
         cart.removeAll()
+        cartIsEmpty = true
     }
 
 }
