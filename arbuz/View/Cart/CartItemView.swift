@@ -9,8 +9,8 @@ import SwiftUI
 
 struct CartItemView: View {
     var product: Product
-    @StateObject var cartVM = CartViewModel.shared
-    @StateObject var homeVM = HomeViewModel.shared
+    @ObservedObject var cartVM = CartViewModel.shared
+    @ObservedObject var homeVM = HomeViewModel.shared
     
     var body: some View {
         HStack(alignment: .top) {
@@ -39,10 +39,10 @@ struct CartItemView: View {
             VStack(alignment: .leading) {
                 //title
                 Text(product.strIngredient ?? "No name")
-                    .font(.system(size: 16))
+                    .font(.system(size: FONTSIZE.titleMedium))
                 //price
-                Text("\(product.price)kzt/шт")
-                    .font(.system(size: 14))
+                Text("\(product.price)₸/шт")
+                    .font(.system(size: FONTSIZE.titleSmall))
                     .foregroundStyle(Color.gray.opacity(0.8))
                 //button
                 HStack(spacing: 14) {
@@ -50,29 +50,29 @@ struct CartItemView: View {
                     Button(action: {
                         cartVM.decrement(product: product)
                     }) {
+                        cartVM.cart[product] ?? 0 > 1 ?
+                        Image(systemName: "minus")
+                            .font(Font.title3.weight(.semibold))
+                            .foregroundColor(.black)
+                            .padding(.leading, 10)
+                        :
                         Image(systemName: "trash")
+                            .font(Font.title3.weight(.semibold))
                             .foregroundColor(.black)
                             .padding(.leading, 10)
                     }
                         
-                    
-//                    Spacer()
-                    
                     // Weight text
                     Text("\(cartVM.cart[product] ?? 0)")
                         .foregroundColor(.black)
-                        .font(.system(size: 16, weight: .medium))
-                    
-                    // Kg text
-
-                    
-//                    Spacer()
+                        .font(.system(size: FONTSIZE.titleMedium, weight: .medium))
                     
                     // Plus button
                     Button(action: {
                         cartVM.addToCart(product: product)
                     }) {
                         Image(systemName: "plus")
+                            .font(Font.title3.weight(.semibold))
                             .foregroundColor(.black)
                             .padding(.trailing, 10)
                     }
@@ -81,7 +81,7 @@ struct CartItemView: View {
                 .background(Color.gray.opacity(0.1))
                 .clipShape(.rect(cornerRadius: 24))
 //                .shadow(color: .gray, radius: 2, x: 0, y: 2)
-                .frame(width: 140, height: 60)
+                .frame(width: 160, height: 50)
                 
             }
             .padding(.leading, 8)
@@ -96,8 +96,8 @@ struct CartItemView: View {
                 }
                 .tint(Color.black)
                 Spacer()
-                Text("\(product.price * (cartVM.cart[product] ?? 1)) kzt")
-                    .font(.system(size: 16, weight: .black))
+                Text("\(product.price * (cartVM.cart[product] ?? 1)) ₸")
+                    .font(.system(size: FONTSIZE.titleMedium, weight: .black))
                     .foregroundStyle(Color.black.opacity(0.75))
             }
             .padding(.bottom, 14)

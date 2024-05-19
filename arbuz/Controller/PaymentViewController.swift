@@ -8,22 +8,29 @@
 import UIKit
 
 class PaymentViewController: UIViewController {
-
+    
+    lazy var messageView: MessageView = {
+        let messageView = MessageView(messageText: "Оплата прошла успешно!", buttonText: "Вернуться назад") {
+            self.navigationController?.popViewController(animated: true)
+        }
+        messageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return messageView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        // Do any additional setup after loading the view.
+        navigationItem.hidesBackButton = true
+        setupView()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupView() {
+        self.view.addSubview(messageView)
+        messageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        messageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        messageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        messageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        messageView.heightAnchor.constraint(equalToConstant: 400).isActive = true
     }
-    */
-
 }

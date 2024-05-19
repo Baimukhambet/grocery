@@ -16,7 +16,9 @@ struct HomeView: View {
             VStack {
                 CategoryHeader(title: "Лучшее предложение")
                     .padding(.horizontal, 16)
-                ProductCell(product: homeVM.products.meals.randomElement() ?? Product(idIngredient: "1", strIngredient: "a", strDescription: "d"), inCart: false)
+                ProductCell(product: homeVM.topProduct ?? Product(idIngredient: "1", strIngredient: "a", strDescription: "d"), onCardTap: {
+                    delegate.didTapOnProduct(product: homeVM.topProduct ?? Product(idIngredient: "1", strIngredient: "a", strDescription: "d"))
+                })
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: UIApplication.windowSize!.height * 0.4, maxHeight: UIApplication.windowSize!.height * 0.4)
                     .padding(.horizontal, 16)
                 
@@ -25,16 +27,12 @@ struct HomeView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack(spacing: 24) {
-                        ForEach(homeVM.products.meals, id: \.self) {
+                        ForEach(homeVM.productsOfDay.meals, id: \.self) {
                             product in
-                            ProductCell(product: product, onAddTap: {
-                                cartVM.addToCart(product: product)
-                            }, onRemoveTap: {
-                                cartVM.removeFromCart(product: product)
-                            }, onLikeTap: {homeVM.addToFavorites(product: product)},
+                            ProductCell(product: product,
                                         onCardTap: {
                                 delegate.didTapOnProduct(product: product)
-                            }, inCart: cartVM.inCart(product: product))
+                            })
                             .frame(width: UIApplication.windowSize!.width * 0.4, height: UIApplication.windowSize!.width * 0.6)
                         }
                     }
@@ -46,9 +44,9 @@ struct HomeView: View {
                 
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                     ForEach(homeVM.products.meals, id: \.self) { product in
-                        ProductCell(product: product, onAddTap: {
-                            cartVM.addToCart(product: product)
-                        }, onLikeTap: {homeVM.addToFavorites(product: product)}, inCart: cartVM.inCart(product: product))
+                        ProductCell(product: product, onCardTap: {
+                            delegate.didTapOnProduct(product: product)
+                        })
                         .frame(width: UIApplication.windowSize!.width * 0.5 - 30, height: UIApplication.windowSize!.width * 0.7)
                         
                     }
