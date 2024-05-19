@@ -6,7 +6,12 @@ final class CartViewModel: ObservableObject {
     private init(){}
     
     @Published var cart: Dictionary<Product, Int> = [:]
-    @Published var favorites: Set<Product> = []
+    @Published var cartIsEmpty: Bool = true
+    
+    var cartAmount: Int {
+        cart.reduce(0) {$0 + $1.key.price * $1.value}
+    }
+    
     
     func addToCart(product: Product) {
         if cart[product] != nil {
@@ -14,17 +19,28 @@ final class CartViewModel: ObservableObject {
         } else {
             cart[product] = 1
         }
+        cartIsEmpty = false
     }
     
-    func removeFromCart(product: Product) {
+    func decrement(product: Product) {
         if let value = cart[product] {
             if value > 1 {
-                cart[product]! += 1
+                cart[product]! -= 1
             } else {
                 cart.removeValue(forKey: product)
             }
+            if cart.isEmpty {
+                cartIsEmpty = true
+            }
         } else {
-            cart[product] = 1
+            return
+        }
+    }
+    
+    func removeFromCart(product: Product) {
+        cart.removeValue(forKey: product)
+        if(cart.isEmpty) {
+            cartIsEmpty = true
         }
     }
     
@@ -32,15 +48,9 @@ final class CartViewModel: ObservableObject {
         return cart[product] != nil
     }
     
-    func isFavorite(product: Product) -> Bool {
-        return favorites.contains(product)
+    func clearCart() {
+        cart.removeAll()
+        cartIsEmpty = true
     }
-    
-    func addToFavorites(product: Product) {
-        if favorites.contains(product) {
-            favorites.remove(product)
-        } else {
-            favorites.insert(product)
-        }
-    }
+
 }
