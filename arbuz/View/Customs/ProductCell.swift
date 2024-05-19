@@ -1,99 +1,152 @@
-//
-//  ProductCell.swift
-//  arbuz
-//
-//  Created by Timur Baimukhambet on 15.05.2024.
-//
-
 import SwiftUI
 
 struct ProductCell: View {
     let product: Product
+    @ObservedObject var homeVM = HomeViewModel.shared
+    @ObservedObject var cartVM = CartViewModel.shared
+
+    var onCardTap: (()->())?
     
-    var onAddTap: (()->())?
-    var onLikeTap: (()->())?
-    var isHeader: Bool?
+    //    var amount: Int?
     
-    let backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+//    let backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
     
-    let mockPrice = 995
-    let mockMin = 1
-    @State var inCart = false
-    @State var inFavorites = false
+//    let addButtonColor = Color.gray.opacity(0.1)
+//    let addedButtonColor = Color(uiColor: UIColor(red: 83/255, green: 201/255, blue: 89/255, alpha: 1))
+    
+    var width: CGFloat?
+    var height: CGFloat?
     
     var body: some View {
-        VStack(spacing: 6) {
-
-            ZStack(alignment: .topTrailing) {
-                AsyncImage(url: URL(string: "https://www.themealdb.com/images/ingredients/" + product.strIngredient! + ".png")!) { image in
-                    image.resizable()
-                        .scaledToFit()
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                } placeholder: {
-                    ProgressView()
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 80)
-                }
-                
-                
-                
-                Image(systemName: inFavorites ? "heart.fill" : "heart")
-                    .resizable()
-                    .renderingMode(.template)
-                    .foregroundStyle(inFavorites ? Color.red : Color.black)
-                
-                    .scaledToFit()
-                    .frame(width: 24)
-                    .onTapGesture {
-                        onLikeTap?()
-                        inFavorites.toggle()
+        VStack(spacing: 6 ) {
+            
+            VStack {
+                ZStack(alignment: .topTrailing) {
+                    AsyncImage(url: URL(string: "https://www.themealdb.com/images/ingredients/" + product.strIngredient! + ".png")!) { image in
+                        image.resizable()
+                            .scaledToFit()
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                    } placeholder: {
+                        ProgressView()
+                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                     }
-            }
-            Spacer()
-            Text(product.strIngredient!)
-                .font(.system(size: 18, weight: .medium))
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            Text("\(mockPrice)/шт.")
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(Color.gray)
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            Text("\(mockPrice)")
-                .font(.system(size: 18, weight: .bold))
-                .foregroundStyle(Color.black)
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            Spacer()
-            HStack {
-//                Text("$99.0")
-//                    .font(.system(size: 18, weight: .bold))
-//                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-//                Spacer()
-                Button {
-                    onAddTap?()
-                    inCart.toggle()
                     
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 8)
-                        inCart ? HStack{
-                            Text("Добавить")
-                                .foregroundStyle(Color.white)
-                            Image(systemName: "plus").renderingMode(.template).foregroundStyle(Color.white)
+                    
+                    
+                    Image(systemName: homeVM.isFavorite(product: product) ? "heart.fill" : "heart")
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundStyle(homeVM.isFavorite(product: product) ? Color.red : Color.black)
+                    
+                        .scaledToFit()
+                        .frame(width: 24)
+                        .onTapGesture {
+                            homeVM.addToFavorites(product: product)
                         }
-                        : HStack{
-                            Text("ubrat")
+                }
+                .padding(12)
+                .background(Color(uiColor: COLOR.secondary))
+                .clipShape(.rect(cornerRadius: 16))
+                
+                Spacer()
+                Text(product.strIngredient!)
+                    .lineLimit(1)
+                    .font(.system(size: FONTSIZE.titleBig, weight: .medium))
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                HStack {
+                    Text("\(product.price)₸/шт.")
+                        .font(.system(size: FONTSIZE.titleMedium, weight: .semibold))
+                        .foregroundStyle(Color.gray)
+                        
+                    if !cartVM.inCart(product: product) {
+                        Circle()
+                            .fill(Color(uiColor: COLOR.primary))
+                            .frame(width: 4, height: 4)
+                        Text("1 шт")
+                            .font(.system(size: FONTSIZE.titleMedium, weight: .semibold))
+                            .foregroundStyle(Color(uiColor: COLOR.primary))
+                    }
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            }
+            .onTapGesture {
+                onCardTap?()
+            }
+            Spacer()
+            
+            
+            ZStack {
+                cartVM.inCart(product: product) ?
+                RoundedRectangle(cornerRadius: 16)
+                    .foregroundStyle(Color(uiColor: COLOR.primary))
+                :
+                RoundedRectangle(cornerRadius: 16)
+                    .foregroundStyle(Color(uiColor: COLOR.defaultButton))
+                
+                Group {
+                    if cartVM.inCart(product: product) {
+                        HStack {
+                            Button(action: {
+                                cartVM.decrement(product: product)
+                            }, label: {
+                                cartVM.cart[product]! > 1 ?
+                                Image(systemName: "minus")
+                                    .font(Font.title3.weight(.bold))
+                                    .foregroundStyle(Color.white)
+                                
+                                : Image(systemName: "trash")
+                                    .font(Font.title3.weight(.bold))
+                                    .foregroundStyle(Color.white)
+                                
+                            })
+//                            Spacer()
+                            
+                            Text("\(cartVM.cart[product]!)")
+                                .font(.system(size: FONTSIZE.titleMedium, weight: .bold))
                                 .foregroundStyle(Color.white)
-                            Image(systemName: "plus").renderingMode(.template).foregroundStyle(Color.white)
+                                .padding(.horizontal, 10)
+                            
+//                            Spacer()
+                            
+                            Button(action: {
+                                cartVM.addToCart(product: product)
+                            }, label: {
+                                Image(systemName: "plus")
+                                    .font(Font.title3.weight(.bold))
+                                    .foregroundStyle(Color.white)
+                            })
+                            
+                            
+
+                        }
+                    } else {
+                        HStack(alignment: .center) {
+                            Text("\(product.price) ₸")
+                                .font(.system(size: FONTSIZE.titleMedium, weight: .bold))
+                                .foregroundStyle(Color.black)
+                                .padding(.leading, 12)
+                            
+                            Spacer()
+                            
+                            Image(systemName: "plus")
+                                .font(Font.title3.weight(.bold))
+                                .foregroundStyle(Color.green)
+                                .padding(.trailing, 12)
+                            
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            cartVM.addToCart(product: product)
                         }
                     }
-                    .tint(Color.green)
-                    .frame(height: 40 )
                 }
             }
+            .tint(Color.green)
+            .frame(width: 140, height: 40)
         }
         .padding(16)
-        .frame(width: 180, height: 280)
-        .background(Color(uiColor: backgroundColor))
-//        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.black, lineWidth: 1))
-        .clipShape(.rect(cornerRadius: 16))
+                
+        
     }
 }
 

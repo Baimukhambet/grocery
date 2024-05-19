@@ -2,10 +2,10 @@ import UIKit
 
 class ProductDetailsViewController: UIViewController {
     
-    let productTitle: String
+    let product: Product;
     
-    init(productTitle: String) {
-        self.productTitle = productTitle
+    init(product: Product) {
+        self.product = product
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -17,22 +17,6 @@ class ProductDetailsViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        let label = UILabel()
-        label.center = view.center
-        view.addSubview(label)
+        
     }
-    
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
