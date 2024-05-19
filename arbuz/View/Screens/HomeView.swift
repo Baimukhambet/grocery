@@ -16,7 +16,7 @@ struct HomeView: View {
             VStack {
                 CategoryHeader(title: "Лучшее предложение")
                     .padding(.horizontal, 16)
-                ProductCell(product: homeVM.products.meals.randomElement() ?? Product(idIngredient: "1", strIngredient: "a", strDescription: "d"), inCart: false)
+                ProductCell(product: homeVM.topProduct ?? Product(idIngredient: "1", strIngredient: "a", strDescription: "d"), inCart: false)
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: UIApplication.windowSize!.height * 0.4, maxHeight: UIApplication.windowSize!.height * 0.4)
                     .padding(.horizontal, 16)
                 

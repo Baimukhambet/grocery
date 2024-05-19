@@ -39,10 +39,10 @@ struct CartItemView: View {
             VStack(alignment: .leading) {
                 //title
                 Text(product.strIngredient ?? "No name")
-                    .font(.system(size: 16))
+                    .font(.system(size: FONTSIZE.titleMedium))
                 //price
                 Text("\(product.price)kzt/шт")
-                    .font(.system(size: 14))
+                    .font(.system(size: FONTSIZE.titleSmall))
                     .foregroundStyle(Color.gray.opacity(0.8))
                 //button
                 HStack(spacing: 14) {
@@ -55,18 +55,10 @@ struct CartItemView: View {
                             .padding(.leading, 10)
                     }
                         
-                    
-//                    Spacer()
-                    
                     // Weight text
                     Text("\(cartVM.cart[product] ?? 0)")
                         .foregroundColor(.black)
-                        .font(.system(size: 16, weight: .medium))
-                    
-                    // Kg text
-
-                    
-//                    Spacer()
+                        .font(.system(size: FONTSIZE.titleMedium, weight: .medium))
                     
                     // Plus button
                     Button(action: {
@@ -81,7 +73,7 @@ struct CartItemView: View {
                 .background(Color.gray.opacity(0.1))
                 .clipShape(.rect(cornerRadius: 24))
 //                .shadow(color: .gray, radius: 2, x: 0, y: 2)
-                .frame(width: 140, height: 60)
+                .frame(width: 140, height: 50)
                 
             }
             .padding(.leading, 8)
@@ -97,7 +89,7 @@ struct CartItemView: View {
                 .tint(Color.black)
                 Spacer()
                 Text("\(product.price * (cartVM.cart[product] ?? 1)) kzt")
-                    .font(.system(size: 16, weight: .black))
+                    .font(.system(size: FONTSIZE.titleMedium, weight: .black))
                     .foregroundStyle(Color.black.opacity(0.75))
             }
             .padding(.bottom, 14)

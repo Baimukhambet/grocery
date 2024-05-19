@@ -5,6 +5,7 @@ import Combine
 final class CartViewController: UIViewController {
     let cartVM = CartViewModel.shared
     var count = CartViewModel.shared.cart.count
+    var goHomeTapped: (() -> ())?
     
     //MARK: Subviews
     lazy var tableView: UITableView = {
@@ -17,19 +18,26 @@ final class CartViewController: UIViewController {
         
         return tableView
     }()
-    
-//    lazy var checkoutButton: UIButton = {
-//        let btn = UIButton()
-//        btn.setTitle("Перейти к оплате", for: .normal)
-//        btn.backgroundColor = UIColor(red: 99/255, green: 206/255, blue: 100/255, alpha: 180)
-//        btn.translatesAutoresizingMaskIntoConstraints = false
-//        btn.layer.cornerRadius = 12
-//        return btn
-//    }()
-//    
+
     lazy var checkoutButton: CheckoutButton = CheckoutButton(titleText: "Перейти к оплате", amount: cartVM.cartAmount.description, onTap: {
-        self.navigationController?.pushViewController(PaymentViewController(), animated: true)
+        self.checkoutButtonTapped()
     })
+    
+//    lazy var noItemsAlert: UILabel = {
+//        let label = UILabel()
+//        label.text = "Ваша корзина пока пуста"
+//        label.font = .systemFont(ofSize: 22, weight: .semibold)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    }()
+    
+    lazy var noItemsAlert: MessageView = {
+        let messageView = MessageView(messageText: "Ваша корзина пока пуста", buttonText: "Перейти в каталог", onTap: {
+            self.goHomeTapped!()
+        })
+        messageView.translatesAutoresizingMaskIntoConstraints = false
+        return messageView
+    }()
     
     
     override func viewDidLoad() {
@@ -55,11 +63,11 @@ final class CartViewController: UIViewController {
         cartVM.$cartIsEmpty.receive(on: RunLoop.main).sink { [weak self] result in
             if !result {
                 self?.setupCheckoutButton()
+                self?.noItemsAlert.removeFromSuperview()
             } else {
                 DispatchQueue.main.async {
                     self?.checkoutButton.removeFromSuperview()
-//                    self?.checkoutButton.alpha = 0.0
-//                    self?.checkoutButton.isHidden = true
+                    self?.setupAlertLabel()
                 }
 //                self?.view.setNeedsLayout()
                 print("CART IS EMPTY")
@@ -68,15 +76,9 @@ final class CartViewController: UIViewController {
     }
     
     var cancellables = Set<AnyCancellable>()
-    
-    //    override func viewWillAppear(_ animated: Bool) {
-    //        super.viewWillAppear(animated)
-    //
-    //    }
-    
 }
 
-//MARK: - Private Extensions
+//MARK: - Private Functions
 
 private extension CartViewController {
     func setupView() {
@@ -87,8 +89,6 @@ private extension CartViewController {
             tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         ])
-        
-//        setupCheckoutButton()
     }
     
     func setupTopBar() {
@@ -116,6 +116,35 @@ private extension CartViewController {
             checkoutButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,  constant: -16),
             checkoutButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -32)])
     }
+    
+    func setupAlertLabel() {
+        self.view.addSubview(noItemsAlert)
+        noItemsAlert.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        noItemsAlert.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        noItemsAlert.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        noItemsAlert.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        noItemsAlert.heightAnchor.constraint(equalToConstant: 400).isActive = true
+    }
+    
+    func checkoutButtonTapped() {
+        tableView.isHidden = true
+        checkoutButton.isHidden = true
+        let progressIndicator = UIActivityIndicatorView()
+        progressIndicator.center = self.view.center
+        self.view.addSubview(progressIndicator)
+        progressIndicator.startAnimating()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [self] in
+            self.navigationController?.pushViewController(PaymentViewController(), animated: true)
+            progressIndicator.removeFromSuperview()
+            cartVM.clearCart()
+            tableView.isHidden = false
+            checkoutButton.isHidden = false
+        }
+
+    }
+    
+
 }
 
 

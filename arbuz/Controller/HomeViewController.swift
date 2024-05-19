@@ -28,6 +28,7 @@ final class HomeViewController: UIViewController, HomeViewDelegate {
         productService.fetchProducts { products in
             DispatchQueue.main.async {
                 self.homeViewModel.products.meals = products.meals
+                self.homeViewModel.topProduct = self.homeViewModel.products.meals.randomElement()
             }
         }
     }

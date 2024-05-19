@@ -4,8 +4,8 @@ class HomeViewModel: ObservableObject {
     static let shared = HomeViewModel()
     @Published var textSearch: String = ""
     @Published var products: Products = Products(meals: [])
-    
     @Published var favorites: Set<Product> = []
+    @Published var topProduct: Product?
     
     
     

@@ -1,22 +1,29 @@
 import SwiftUI
 import UIKit
 
-class TabView: UITabBarController {
+final class TabView: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
     }
     
     private func setupTabBar() {
-//        let mainVC = UIHostingController(rootView: HomeView())
-        let mainVC = UINavigationController(rootViewController: HomeViewController())
-        let cartVC = UINavigationController(rootViewController: CartViewController())
+        let homeVC = HomeViewController()
+        let cartVC = CartViewController()
         
-        mainVC.tabBarItem = UITabBarItem(title: "Главная", image: UIImage(systemName: "house.fill"), tag: 0)
-        cartVC.tabBarItem = UITabBarItem(title: "Корзина", image: UIImage(systemName: "cart.fill"), tag: 1)
+        cartVC.goHomeTapped = {
+            self.selectedIndex = 0
+        }
         
-        setViewControllers([mainVC, cartVC], animated: false)
+        let homeNavigationController = UINavigationController(rootViewController: homeVC)
+        let cartNavigationController = UINavigationController(rootViewController: cartVC)
+        
+        homeNavigationController.tabBarItem = UITabBarItem(title: "Главная", image: UIImage(systemName: "house"), tag: 0)
+        cartNavigationController.tabBarItem = UITabBarItem(title: "Корзина", image: UIImage(systemName: "cart"), tag: 1)
+        
+        setViewControllers([homeNavigationController, cartNavigationController], animated: false)
         selectedIndex = 0
-        tabBar.tintColor = .green
+        tabBar.unselectedItemTintColor = .black
+        tabBar.tintColor = COLOR.primary
     }
 }
