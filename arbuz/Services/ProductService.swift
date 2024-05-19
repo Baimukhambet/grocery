@@ -1,6 +1,6 @@
 import Foundation
 
-final class ProductService {
+final class ProductService: AbstractProductService {
     static let shared = ProductService()
     private let BASE_URL_STRING = "https://www.themealdb.com/api/json/v1/1/list.php"
     
@@ -14,7 +14,6 @@ final class ProductService {
             if let data = data {
                 do {
                     var result = try JSONDecoder().decode(Products.self, from: data)
-                    print(result)
                     
                     result.meals = Array(result.meals[0...30])
                     result.meals.shuffle()

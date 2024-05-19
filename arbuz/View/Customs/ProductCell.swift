@@ -2,14 +2,11 @@ import SwiftUI
 
 struct ProductCell: View {
     let product: Product
-    let homeVM = HomeViewModel.shared
-    let cartVM = CartViewModel.shared
-    
-    var onAddTap: (()->())?
-    var onRemoveTap: (()->())?
-    var onLikeTap: (()->())?
+    @ObservedObject var homeVM = HomeViewModel.shared
+    @ObservedObject var cartVM = CartViewModel.shared
+
     var onCardTap: (()->())?
-    var inCart: Bool
+    
     //    var amount: Int?
     
 //    let backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
@@ -21,44 +18,60 @@ struct ProductCell: View {
     var height: CGFloat?
     
     var body: some View {
-        VStack(spacing: 6) {
+        VStack(spacing: 6 ) {
             
-            ZStack(alignment: .topTrailing) {
-                AsyncImage(url: URL(string: "https://www.themealdb.com/images/ingredients/" + product.strIngredient! + ".png")!) { image in
-                    image.resizable()
-                        .scaledToFit()
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                } placeholder: {
-                    ProgressView()
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                }
-                
-                
-                
-                Image(systemName: homeVM.isFavorite(product: product) ? "heart.fill" : "heart")
-                    .resizable()
-                    .renderingMode(.template)
-                    .foregroundStyle(homeVM.isFavorite(product: product) ? Color.red : Color.black)
-                
-                    .scaledToFit()
-                    .frame(width: 24)
-                    .onTapGesture {
-                        homeVM.addToFavorites(product: product)
+            VStack {
+                ZStack(alignment: .topTrailing) {
+                    AsyncImage(url: URL(string: "https://www.themealdb.com/images/ingredients/" + product.strIngredient! + ".png")!) { image in
+                        image.resizable()
+                            .scaledToFit()
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                    } placeholder: {
+                        ProgressView()
+                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                     }
+                    
+                    
+                    
+                    Image(systemName: homeVM.isFavorite(product: product) ? "heart.fill" : "heart")
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundStyle(homeVM.isFavorite(product: product) ? Color.red : Color.black)
+                    
+                        .scaledToFit()
+                        .frame(width: 24)
+                        .onTapGesture {
+                            homeVM.addToFavorites(product: product)
+                        }
+                }
+                .padding(12)
+                .background(Color(uiColor: COLOR.secondary))
+                .clipShape(.rect(cornerRadius: 16))
+                
+                Spacer()
+                Text(product.strIngredient!)
+                    .lineLimit(1)
+                    .font(.system(size: FONTSIZE.titleBig, weight: .medium))
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                HStack {
+                    Text("\(product.price)₸/шт.")
+                        .font(.system(size: FONTSIZE.titleMedium, weight: .semibold))
+                        .foregroundStyle(Color.gray)
+                        
+                    if !cartVM.inCart(product: product) {
+                        Circle()
+                            .fill(Color(uiColor: COLOR.primary))
+                            .frame(width: 4, height: 4)
+                        Text("1 шт")
+                            .font(.system(size: FONTSIZE.titleMedium, weight: .semibold))
+                            .foregroundStyle(Color(uiColor: COLOR.primary))
+                    }
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             }
-            .padding(12)
-            .background(Color(uiColor: COLOR.secondary))
-            .clipShape(.rect(cornerRadius: 16))
-            
-            Spacer()
-            Text(product.strIngredient!)
-                .lineLimit(1)
-                .font(.system(size: FONTSIZE.titleBig, weight: .medium))
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            Text("\(product.price)₸/шт.")
-                .font(.system(size: FONTSIZE.titleMedium, weight: .semibold))
-                .foregroundStyle(Color.gray)
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            .onTapGesture {
+                onCardTap?()
+            }
             Spacer()
             
             
@@ -86,11 +99,14 @@ struct ProductCell: View {
                                     .foregroundStyle(Color.white)
                                 
                             })
+//                            Spacer()
                             
-                            
-                            Text("\(cartVM.cart[product]!)шт.")
+                            Text("\(cartVM.cart[product]!)")
                                 .font(.system(size: FONTSIZE.titleMedium, weight: .bold))
                                 .foregroundStyle(Color.white)
+                                .padding(.horizontal, 10)
+                            
+//                            Spacer()
                             
                             Button(action: {
                                 cartVM.addToCart(product: product)
@@ -135,5 +151,5 @@ struct ProductCell: View {
 }
 
 #Preview {
-    ProductCell(product: Product(idIngredient: "1", strIngredient: "Lime", strDescription: "Description") as! ProductEntity, inCart: false)
+    ProductCell(product: Product(idIngredient: "1", strIngredient: "Lime", strDescription: "Description"))
 }
