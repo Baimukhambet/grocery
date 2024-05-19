@@ -24,5 +24,9 @@ class OfflineProductService: AbstractProductService {
         }
     }
     
+    func fetchProduct(id: String, completion: @escaping (Product?) -> Void) {
+        
+    }
+    
     
 }

@@ -6,14 +6,6 @@ struct ProductCell: View {
     @ObservedObject var cartVM = CartViewModel.shared
 
     var onCardTap: (()->())?
-    
-    //    var amount: Int?
-    
-//    let backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
-    
-//    let addButtonColor = Color.gray.opacity(0.1)
-//    let addedButtonColor = Color(uiColor: UIColor(red: 83/255, green: 201/255, blue: 89/255, alpha: 1))
-    
     var width: CGFloat?
     var height: CGFloat?
     
@@ -22,15 +14,42 @@ struct ProductCell: View {
             
             VStack {
                 ZStack(alignment: .topTrailing) {
-                    AsyncImage(url: URL(string: "https://www.themealdb.com/images/ingredients/" + product.strIngredient! + ".png")!) { image in
-                        image.resizable()
-                            .scaledToFit()
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                    } placeholder: {
-                        ProgressView()
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                    AsyncImage(url: URL(string: product.imageUrl)!) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                        case .failure(_):
+                            if(UIImage(named: product.strIngredient!) != nil){
+                                Image(product.strIngredient!)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                            } else {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                            }
+                        @unknown default:
+                            if(UIImage(named: product.strIngredient!) != nil){
+                                Image(product.strIngredient!)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                            } else {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                            }                        }
+                        
                     }
-                    
                     
                     
                     Image(systemName: homeVM.isFavorite(product: product) ? "heart.fill" : "heart")
@@ -99,14 +118,12 @@ struct ProductCell: View {
                                     .foregroundStyle(Color.white)
                                 
                             })
-//                            Spacer()
                             
                             Text("\(cartVM.cart[product]!)")
                                 .font(.system(size: FONTSIZE.titleMedium, weight: .bold))
                                 .foregroundStyle(Color.white)
                                 .padding(.horizontal, 10)
                             
-//                            Spacer()
                             
                             Button(action: {
                                 cartVM.addToCart(product: product)

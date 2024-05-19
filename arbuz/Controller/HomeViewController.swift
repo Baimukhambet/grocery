@@ -32,7 +32,7 @@ final class HomeViewController: UIViewController, HomeViewDelegate {
         productService.fetchProducts { products in
             DispatchQueue.main.async { [self] in
                 if products.meals.count != 0 {
-                    homeVM.topProduct = products.meals.first
+                    homeVM.topProduct = products.meals.first!
                     homeVM.productsOfDay.meals = Array(products.meals[1...5])
                     homeVM.products.meals = Array(products.meals[6...products.meals.count - 1])
                 }

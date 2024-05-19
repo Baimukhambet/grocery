@@ -1,7 +1,7 @@
 import Foundation
 
 final class ProductService: AbstractProductService {
-
+    
     //Singletone
     static let shared = ProductService()
     private let BASE_URL_STRING = "https://www.themealdb.com/api/json/v1/1/list.php"
@@ -27,6 +27,7 @@ final class ProductService: AbstractProductService {
                     
                     completion(products)
                 } catch let error {
+                    print("catch block executed.")
                     OfflineProductService.shared.fetchProducts { products in
                         //Put mock data in completion
                         self.products = products
@@ -36,13 +37,24 @@ final class ProductService: AbstractProductService {
                     }
                     
                 }
+            } else {
+                print("catch block executed.")
+                OfflineProductService.shared.fetchProducts { products in
+                    //Put mock data in completion
+                    self.products = products
+                    
+                    completion(products)
+                    
+                }
             }
         }.resume()
     }
     
     func fetchProduct(id: String, completion: @escaping (Product?) -> Void) {
         if let foundProduct = self.products.meals.first(where: { $0.idIngredient == id}) {
-            completion(foundProduct)
+            DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+                completion(foundProduct)
+            }
         } else {
             completion(nil)
         }

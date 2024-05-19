@@ -5,7 +5,9 @@ class HomeViewModel: ObservableObject {
     @Published var products: Products = Products(meals: [])
     @Published var productsOfDay: Products = Products(meals: [])
     @Published var favorites: Set<Product> = []
-    @Published var topProduct: Product?
+    @Published var topProduct: Product = Product(idIngredient: "1", strIngredient: "Mock Product", strDescription: "Description")
+    
+    private init() {}
 
     func isFavorite(product: Product) -> Bool {
         return favorites.contains(product)
