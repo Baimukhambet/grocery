@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class CartCollectionViewCell: UITableViewCell {
+final class CartCollectionViewCell: UITableViewCell {
     
     var onPlusTap: (()->())?
     var product: Product?

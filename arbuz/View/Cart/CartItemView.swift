@@ -15,64 +15,77 @@ struct CartItemView: View {
     var body: some View {
         HStack(alignment: .top) {
             ZStack(alignment: .topTrailing) {
-                AsyncImage(url: URL(string: product.imageUrl)!) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                            .frame(minWidth: 80, maxWidth: 80, minHeight: 0, maxHeight: 80)
-                            .padding(12)
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(minWidth: 0, maxWidth: 80)
-                            .padding(12)
-                            .background(Color.gray.opacity(0.1))
-                            .clipShape(.rect(cornerRadius: 12))
-                    case .failure(let error):
-                        if (UIImage(named: product.strIngredient!) != nil) {
-                            Image(product.strIngredient!)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(minWidth: 0, maxWidth: 80)
-                                .padding(12)
-                                .background(Color.gray.opacity(0.1))
-                                .clipShape(.rect(cornerRadius: 12))
-                        } else {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(minWidth: 0, maxWidth: 80)
-                                .padding(12)
-                                .background(Color.gray.opacity(0.1))
-                                .clipShape(.rect(cornerRadius: 12))
-                        }
-                    @unknown default:
-                        if (UIImage(named: product.strIngredient!) != nil) {
-                            Image(product.strIngredient!)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(minWidth: 0, maxWidth: 80)
-                                .padding(12)
-                                .background(Color.gray.opacity(0.1))
-                                .clipShape(.rect(cornerRadius: 12))
-                        } else {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(minWidth: 0, maxWidth: 80)
-                                .padding(12)
-                                .background(Color.gray.opacity(0.1))
-                                .clipShape(.rect(cornerRadius: 12))
-                        }
-                    }}
+                //                AsyncImage(url: URL(string: product.imageUrl)!) { phase in
+                //                    switch phase {
+                //                    case .empty:
+                //                        ProgressView()
+                //                            .frame(minWidth: 80, maxWidth: 80, minHeight: 0, maxHeight: 80)
+                //                            .padding(12)
+                //                    case .success(let image):
+                //                        image
+                //                            .resizable()
+                //                            .scaledToFit()
+                //                            .frame(minWidth: 0, maxWidth: 80)
+                //                            .padding(12)
+                //                            .background(Color.gray.opacity(0.1))
+                //                            .clipShape(.rect(cornerRadius: 12))
+                //                    case .failure(let error):
+                //                        if (UIImage(named: product.strIngredient!) != nil) {
+                //                            Image(product.strIngredient!)
+                //                                .resizable()
+                //                                .scaledToFit()
+                //                                .frame(minWidth: 0, maxWidth: 80)
+                //                                .padding(12)
+                //                                .background(Color.gray.opacity(0.1))
+                //                                .clipShape(.rect(cornerRadius: 12))
+                //                        } else {
+                //                            Image(systemName: "photo")
+                //                                .resizable()
+                //                                .scaledToFit()
+                //                                .frame(minWidth: 0, maxWidth: 80)
+                //                                .padding(12)
+                //                                .background(Color.gray.opacity(0.1))
+                //                                .clipShape(.rect(cornerRadius: 12))
+                //                        }
+                //                    @unknown default:
+                //                        if (UIImage(named: product.strIngredient!) != nil) {
+                //                            Image(product.strIngredient!)
+                //                                .resizable()
+                //                                .scaledToFit()
+                //                                .frame(minWidth: 0, maxWidth: 80)
+                //                                .padding(12)
+                //                                .background(Color.gray.opacity(0.1))
+                //                                .clipShape(.rect(cornerRadius: 12))
+                //                        } else {
+                //                            Image(systemName: "photo")
+                //                                .resizable()
+                //                                .scaledToFit()
+                //                                .frame(minWidth: 0, maxWidth: 80)
+                //                                .padding(12)
+                //                                .background(Color.gray.opacity(0.1))
+                //                                .clipShape(.rect(cornerRadius: 12))
+                //                        }
+                //                    }}
+                //                Image(uiImage: product.image)
+                //                    .resizable()
+                //                    .scaledToFit()
+                //                    .frame(minWidth: 0, maxWidth: 80)
+                //                    .padding(12)
+                //                    .background(Color.gray.opacity(0.1))
+                //                    .clipShape(.rect(cornerRadius: 12))
+                MyAsyncImage(url: URL(string: product.imageUrl)!)
+                    .scaledToFit()
+                    .frame(minWidth: 0, maxWidth: 80)
+                    .padding(12)
+                    .background(Color.gray.opacity(0.1))
+                    .clipShape(.rect(cornerRadius: 12))
                 
                 Button {
                     homeVM.addToFavorites(product: product)
                 } label: {
-                    homeVM.isFavorite(product: product) ? Image(systemName: "heart.fill").renderingMode(.template).foregroundStyle(Color.red) : Image(systemName: "heart").renderingMode(.template).foregroundStyle(Color.black)
+                    homeVM.isFavorite(product: product) ? Image(systemName: "heart.fill").renderingMode(.template).foregroundColor(Color.red) : Image(systemName: "heart").renderingMode(.template).foregroundColor(Color.black)
                 }
-                    .padding([.top, .trailing], 8)
+                .padding([.top, .trailing], 8)
             }
             VStack(alignment: .leading) {
                 //title
@@ -81,7 +94,8 @@ struct CartItemView: View {
                 //price
                 Text("\(product.price)₸/шт")
                     .font(.system(size: FONTSIZE.titleSmall))
-                    .foregroundStyle(Color.gray.opacity(0.8))
+                //                    .foregroundColor(Color.gray.opacity(0.8))
+                    .foregroundColor(Color.gray.opacity(0.8))
                 //button
                 HStack(spacing: 14) {
                     // Trash icon
@@ -99,7 +113,7 @@ struct CartItemView: View {
                             .foregroundColor(.black)
                             .padding(.leading, 10)
                     }
-                        
+                    
                     // Weight text
                     Text("\(cartVM.cart[product] ?? 0)")
                         .foregroundColor(.black)
@@ -118,7 +132,7 @@ struct CartItemView: View {
                 .padding()
                 .background(Color.gray.opacity(0.1))
                 .clipShape(.rect(cornerRadius: 24))
-//                .shadow(color: .gray, radius: 2, x: 0, y: 2)
+                //                .shadow(color: .gray, radius: 2, x: 0, y: 2)
                 .frame(width: 160, height: 50)
                 
             }
@@ -132,11 +146,13 @@ struct CartItemView: View {
                 } label: {
                     Image(systemName: "xmark")
                 }
-                .tint(Color.black)
+                //                .tint(Color.black)
+                .foregroundColor(Color.black)
                 Spacer()
                 Text("\(product.price * (cartVM.cart[product] ?? 1)) ₸")
                     .font(.system(size: FONTSIZE.titleMedium, weight: .black))
-                    .foregroundStyle(Color.black.opacity(0.75))
+                //                    .foregroundColor(Color.black.opacity(0.75))
+                    .foregroundColor(Color.black.opacity(0.75))
             }
             .padding(.bottom, 14)
             

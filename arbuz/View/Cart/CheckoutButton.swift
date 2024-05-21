@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CheckoutButton: UIView {
+final class CheckoutButton: UIView {
     var onTap: (()->())
     let titleText: String
     let amount: String

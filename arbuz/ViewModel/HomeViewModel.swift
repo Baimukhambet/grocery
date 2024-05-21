@@ -1,6 +1,6 @@
 import SwiftUI
 
-class HomeViewModel: ObservableObject {
+final class HomeViewModel: ObservableObject {
     static let shared = HomeViewModel()
     @Published var products: Products = Products(meals: [])
     @Published var productsOfDay: Products = Products(meals: [])

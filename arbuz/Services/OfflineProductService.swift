@@ -1,6 +1,6 @@
 import Foundation
 
-class OfflineProductService: AbstractProductService {
+final class OfflineProductService: AbstractProductService {
     static let shared = OfflineProductService()
     private init() {}
     
