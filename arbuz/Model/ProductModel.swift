@@ -18,16 +18,10 @@ class Product: Decodable, Hashable {
         "https://www.themealdb.com/images/ingredients/\(strIngredient!).png"
     }
     
-//    var image: UIImage?
-    
     init(idIngredient: String?, strIngredient: String?, strDescription: String?) {
         self.idIngredient = idIngredient
         self.strIngredient = strIngredient
         self.strDescription = strDescription
-        
-//        loadImage { image in
-//            self.image = image
-//        }
     }
     
     func loadImage(completion: @escaping (UIImage)->()) {

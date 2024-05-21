@@ -17,10 +17,6 @@ struct ProductCell: View {
             VStack {
                 ZStack(alignment: .topTrailing) {
                     
-                    //                    Image(uiImage: product.image)
-                    //                        .resizable()
-                    //                        .scaledToFit()
-                    //                        .frame(minWidth: 0, maxWidth: .infinity)
                     MyAsyncImage(url: URL(string: product.imageUrl)!)
                         .scaledToFit()
                         .frame(minWidth: 0, maxWidth: .infinity)
