@@ -18,13 +18,14 @@ final class HomeViewController: UIViewController, HomeViewDelegate {
     }
     
     func didTapOnProduct(id: String) {
-        productService.fetchProduct(id: id) { [self] product in
-            if let product = product {
-                DispatchQueue.main.async {
-                    self.present(ProductDetailsViewController(product: product), animated: true)
-                }
-            }
-        }
+//        productService.fetchProduct(id: id) { [self] product in
+//            if let product = product {
+//                DispatchQueue.main.async {
+//                    self.present(ProductDetailsViewController(), animated: true)
+//                }
+//            }
+//        }
+        self.present(ProductDetailsViewController(id: id), animated: true)
         
     }
     
