@@ -56,8 +56,10 @@ final class CartViewController: UIViewController {
                 self?.tableView.reloadData()
                 self?.count = CartViewModel.shared.cart.count
             }
-            self!.deliveryInfo.setAmount(amount: 8000 - self!.cartVM.cartAmount)
-            self?.tableView.reloadData()
+            
+                self!.deliveryInfo.setAmount(amount: 8000 - self!.cartVM.cartAmount)
+                self?.tableView.reloadSections(IndexSet(0..<1), with: .automatic)
+        
             
         }
         .store(in: &cancellables)
@@ -71,7 +73,7 @@ final class CartViewController: UIViewController {
                     self?.checkoutButton.removeFromSuperview()
                     self?.setupAlertLabel()
                 }
-//                self?.view.setNeedsLayout()
+
                 print("CART IS EMPTY")
             }
         }.store(in: &cancellables)

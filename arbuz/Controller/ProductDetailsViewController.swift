@@ -1,7 +1,7 @@
 import UIKit
 import Combine
 
-class ProductDetailsViewController: UIViewController {
+final class ProductDetailsViewController: UIViewController {
     let productService: ProductService = ProductService.shared
     let homeVM = HomeViewModel.shared
     let cartVM = CartViewModel.shared
@@ -14,7 +14,6 @@ class ProductDetailsViewController: UIViewController {
         let likeButton = UIButton()
         likeButton.setImage(UIImage(systemName: "heart")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
         likeButton.imageView?.contentMode = .scaleAspectFit
-//        likeButton.tintColor = .black
         
         likeButton.addAction(UIAction{_ in self.likeTapped()}, for: .touchUpInside)
         

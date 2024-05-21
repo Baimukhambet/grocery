@@ -25,6 +25,7 @@
 		2234A5312BF46D7B0001C4E5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 2234A5302BF46D7B0001C4E5 /* Base */; };
 		225DFED12BFC8789008F46E1 /* BuyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225DFED02BFC8789008F46E1 /* BuyButton.swift */; };
 		225DFED32BFC9A95008F46E1 /* DeliveryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225DFED22BFC9A95008F46E1 /* DeliveryInfoView.swift */; };
+		225DFED52BFCAAB2008F46E1 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225DFED42BFCAAB2008F46E1 /* ImageLoader.swift */; };
 		227E08322BF75386000C6759 /* CartItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E08312BF75386000C6759 /* CartItemView.swift */; };
 		227E08342BF775B1000C6759 /* CheckoutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E08332BF775B1000C6759 /* CheckoutButton.swift */; };
 		227E08382BF778E7000C6759 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E08372BF778E7000C6759 /* PaymentViewController.swift */; };
@@ -57,6 +58,7 @@
 		2234A5322BF46D7B0001C4E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		225DFED02BFC8789008F46E1 /* BuyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyButton.swift; sourceTree = "<group>"; };
 		225DFED22BFC9A95008F46E1 /* DeliveryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryInfoView.swift; sourceTree = "<group>"; };
+		225DFED42BFCAAB2008F46E1 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		227E08312BF75386000C6759 /* CartItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemView.swift; sourceTree = "<group>"; };
 		227E08332BF775B1000C6759 /* CheckoutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutButton.swift; sourceTree = "<group>"; };
 		227E08372BF778E7000C6759 /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				2200938E2BF609B5005515B7 /* ProductModel.swift */,
+				225DFED42BFCAAB2008F46E1 /* ImageLoader.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				229402612BF4AB3500D0E465 /* CartViewController.swift in Sources */,
 				227E08322BF75386000C6759 /* CartItemView.swift in Sources */,
 				229402522BF4A11300D0E465 /* TabViewController.swift in Sources */,
+				225DFED52BFCAAB2008F46E1 /* ImageLoader.swift in Sources */,
 				2213BF1A2BFA293700400EDC /* UIColorExtension.swift in Sources */,
 				2213BF212BFA456C00400EDC /* AbstractProductService.swift in Sources */,
 				2200938A2BF60185005515B7 /* ProductDetailsViewController.swift in Sources */,
@@ -461,9 +465,9 @@
 				INFOPLIST_FILE = arbuz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -489,9 +493,9 @@
 				INFOPLIST_FILE = arbuz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

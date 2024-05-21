@@ -1,8 +1,8 @@
 import UIKit
 
-class DeliveryInfoView: UIView {
+final class DeliveryInfoView: UIView {
     
-    var amount: Int
+    private var amount: Int
 
     private lazy var cargoIcon: UIImageView = {
         let imageView = UIImageView()

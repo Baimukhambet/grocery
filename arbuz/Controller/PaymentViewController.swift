@@ -1,13 +1,6 @@
-//
-//  PaymentViewController.swift
-//  arbuz
-//
-//  Created by Timur Baimukhambet on 17.05.2024.
-//
-
 import UIKit
 
-class PaymentViewController: UIViewController {
+final class PaymentViewController: UIViewController {
     
     lazy var messageView: MessageView = {
         let messageView = MessageView(messageText: "Оплата прошла успешно!", buttonText: "Вернуться назад") {

@@ -5,7 +5,7 @@ final class ProductService: AbstractProductService {
     
     //Singletone
     static let shared = ProductService()
-    private let BASE_URL_STRING = "https://www.themealdb.com/api/json/v1/1/list.php"
+    private let BASE_URL_STRING = "https://www.themealdb.com/api/json/v1/1/list.php?i=list"
     
     var products: Products = Products(meals: [])
     
@@ -13,7 +13,7 @@ final class ProductService: AbstractProductService {
     
     func fetchProducts(completion: @escaping (Products) -> ()) {
         var url = URL(string: BASE_URL_STRING)!
-        url.append(queryItems: [URLQueryItem(name: "i", value: "list")])
+//        url.append(queryItems: [URLQueryItem(name: "i", value: "list")])
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {

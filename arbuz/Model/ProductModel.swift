@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class Product: Decodable, Hashable {
     static func == (lhs: Product, rhs: Product) -> Bool {
@@ -21,6 +22,17 @@ class Product: Decodable, Hashable {
         self.idIngredient = idIngredient
         self.strIngredient = strIngredient
         self.strDescription = strDescription
+    }
+    
+    func loadImage(completion: @escaping (UIImage)->()) {
+        DispatchQueue.global().async {
+            do {
+                let image = try UIImage(data: Data(contentsOf: URL(string: self.imageUrl)!))
+                completion(image!)
+            } catch let e {
+                completion(UIImage(systemName: "photo")!)
+            }
+        }
     }
 }
 
