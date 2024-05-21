@@ -24,6 +24,7 @@
 		2234A52E2BF46D7B0001C4E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2234A52D2BF46D7B0001C4E5 /* Assets.xcassets */; };
 		2234A5312BF46D7B0001C4E5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 2234A5302BF46D7B0001C4E5 /* Base */; };
 		225DFED12BFC8789008F46E1 /* BuyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225DFED02BFC8789008F46E1 /* BuyButton.swift */; };
+		225DFED32BFC9A95008F46E1 /* DeliveryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225DFED22BFC9A95008F46E1 /* DeliveryInfoView.swift */; };
 		227E08322BF75386000C6759 /* CartItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E08312BF75386000C6759 /* CartItemView.swift */; };
 		227E08342BF775B1000C6759 /* CheckoutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E08332BF775B1000C6759 /* CheckoutButton.swift */; };
 		227E08382BF778E7000C6759 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E08372BF778E7000C6759 /* PaymentViewController.swift */; };
@@ -55,6 +56,7 @@
 		2234A5302BF46D7B0001C4E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2234A5322BF46D7B0001C4E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		225DFED02BFC8789008F46E1 /* BuyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyButton.swift; sourceTree = "<group>"; };
+		225DFED22BFC9A95008F46E1 /* DeliveryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryInfoView.swift; sourceTree = "<group>"; };
 		227E08312BF75386000C6759 /* CartItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemView.swift; sourceTree = "<group>"; };
 		227E08332BF775B1000C6759 /* CheckoutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutButton.swift; sourceTree = "<group>"; };
 		227E08372BF778E7000C6759 /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				227E08312BF75386000C6759 /* CartItemView.swift */,
 				227E08332BF775B1000C6759 /* CheckoutButton.swift */,
 				2213BF172BFA26D100400EDC /* MessageView.swift */,
+				225DFED22BFC9A95008F46E1 /* DeliveryInfoView.swift */,
 			);
 			path = Cart;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				2213BF212BFA456C00400EDC /* AbstractProductService.swift in Sources */,
 				2200938A2BF60185005515B7 /* ProductDetailsViewController.swift in Sources */,
 				220093982BF64029005515B7 /* UIApplicationExtension.swift in Sources */,
+				225DFED32BFC9A95008F46E1 /* DeliveryInfoView.swift in Sources */,
 				227E08382BF778E7000C6759 /* PaymentViewController.swift in Sources */,
 				2213BF182BFA26D100400EDC /* MessageView.swift in Sources */,
 				2234A5272BF46D7A0001C4E5 /* SceneDelegate.swift in Sources */,
