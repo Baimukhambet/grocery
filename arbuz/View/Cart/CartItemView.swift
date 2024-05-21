@@ -15,19 +15,57 @@ struct CartItemView: View {
     var body: some View {
         HStack(alignment: .top) {
             ZStack(alignment: .topTrailing) {
-                AsyncImage(url: URL(string: "https://www.themealdb.com/images/ingredients/" + product.strIngredient! + ".png")!) { image in
-                    image.resizable()
-                        .scaledToFit()
-                        .frame(minWidth: 0, maxWidth: 80)
-                        .padding(12)
-                        .background(Color.gray.opacity(0.1))
-                        .clipShape(.rect(cornerRadius: 12))
-                } placeholder: {
-                    ProgressView()
-                        .frame(minWidth: 80, maxWidth: 80, minHeight: 0, maxHeight: 80)
-                        .padding(12)
-                    
-                }
+                AsyncImage(url: URL(string: product.imageUrl)!) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                            .frame(minWidth: 80, maxWidth: 80, minHeight: 0, maxHeight: 80)
+                            .padding(12)
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(minWidth: 0, maxWidth: 80)
+                            .padding(12)
+                            .background(Color.gray.opacity(0.1))
+                            .clipShape(.rect(cornerRadius: 12))
+                    case .failure(let error):
+                        if (UIImage(named: product.strIngredient!) != nil) {
+                            Image(product.strIngredient!)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(minWidth: 0, maxWidth: 80)
+                                .padding(12)
+                                .background(Color.gray.opacity(0.1))
+                                .clipShape(.rect(cornerRadius: 12))
+                        } else {
+                            Image(systemName: "photo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(minWidth: 0, maxWidth: 80)
+                                .padding(12)
+                                .background(Color.gray.opacity(0.1))
+                                .clipShape(.rect(cornerRadius: 12))
+                        }
+                    @unknown default:
+                        if (UIImage(named: product.strIngredient!) != nil) {
+                            Image(product.strIngredient!)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(minWidth: 0, maxWidth: 80)
+                                .padding(12)
+                                .background(Color.gray.opacity(0.1))
+                                .clipShape(.rect(cornerRadius: 12))
+                        } else {
+                            Image(systemName: "photo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(minWidth: 0, maxWidth: 80)
+                                .padding(12)
+                                .background(Color.gray.opacity(0.1))
+                                .clipShape(.rect(cornerRadius: 12))
+                        }
+                    }}
                 
                 Button {
                     homeVM.addToFavorites(product: product)
