@@ -10,19 +10,23 @@ class ProductDetailsViewController: UIViewController {
     
     
     //MARK: Subviews
+    lazy var likeButton: UIButton = {
+        let likeButton = UIButton()
+        likeButton.setImage(UIImage(systemName: "heart")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        likeButton.imageView?.contentMode = .scaleAspectFit
+//        likeButton.tintColor = .black
+        
+        likeButton.addAction(UIAction{_ in self.likeTapped()}, for: .touchUpInside)
+        
+        return likeButton
+    }()
+    
     lazy var topBarView: UIView = {
         let closeButton = UIButton()
-        let likeButton = UIButton()
         
         closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-
         closeButton.imageView?.contentMode = .scaleAspectFit
-        likeButton.imageView?.contentMode = .scaleAspectFit
-        
         closeButton.tintColor = .black
-        likeButton.tintColor = .black
-        
         closeButton.addAction(UIAction{ _ in self.dismiss(animated: true)}, for: .touchUpInside)
         
         let topBarView = UIView()
@@ -170,6 +174,8 @@ private extension ProductDetailsViewController {
                     self.productTitleLabel.text = product.strIngredient
                     self.setupButton()
                     self.subscribe()
+                    
+                    self.setupLikeButton()
                 }
                 
                 self.fetchImage()
@@ -217,6 +223,30 @@ private extension ProductDetailsViewController {
             
         }
         .store(in: &cancellables)
+        
+        homeVM.$favorites.receive(on: RunLoop.main).sink { [self] _ in
+            if(homeVM.isFavorite(product: product!)) {
+                likeButton.setImage(UIImage(systemName: "heart.fill")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal), for: .normal)
+            } else {
+                likeButton.setImage(UIImage(systemName: "heart")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+            }
+            
+        }
+        .store(in: &cancellables)
     }
+    
+    func setupLikeButton() {
+        if(homeVM.isFavorite(product: product!)) {
+            likeButton.setImage(UIImage(systemName: "heart.fill")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal), for: .normal)
+        } else {
+            likeButton.setImage(UIImage(systemName: "heart")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        }
+    }
+    
+    func likeTapped() {
+        homeVM.addToFavorites(product: product!)
+    }
+    
+
     
 }
