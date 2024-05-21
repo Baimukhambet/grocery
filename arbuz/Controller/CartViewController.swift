@@ -8,35 +8,34 @@ final class CartViewController: UIViewController {
     var goHomeTapped: (() -> ())?
     
     //MARK: Subviews
-    lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(CartCollectionViewCell.self, forCellReuseIdentifier: CartCollectionViewCell.reuseId)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
+        tableView.separatorStyle = .none
         
         return tableView
     }()
 
-    lazy var checkoutButton: CheckoutButton = CheckoutButton(titleText: "Перейти к оплате", amount: cartVM.cartAmount.description, onTap: {
+    private lazy var checkoutButton: CheckoutButton = CheckoutButton(titleText: "Перейти к оплате", amount: cartVM.cartAmount.description, onTap: {
         self.checkoutButtonTapped()
     })
     
-//    lazy var noItemsAlert: UILabel = {
-//        let label = UILabel()
-//        label.text = "Ваша корзина пока пуста"
-//        label.font = .systemFont(ofSize: 22, weight: .semibold)
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    }()
-    
-    lazy var noItemsAlert: MessageView = {
+    private lazy var noItemsAlert: MessageView = {
         let messageView = MessageView(messageText: "Ваша корзина пока пуста", buttonText: "Перейти в каталог", onTap: {
             self.goHomeTapped!()
         })
         messageView.translatesAutoresizingMaskIntoConstraints = false
         return messageView
+    }()
+    
+    private lazy var deliveryInfo: DeliveryInfoView = {
+        let view = DeliveryInfoView(amount: 8000 - cartVM.cartAmount)
+        
+        return view
     }()
     
     
@@ -49,6 +48,7 @@ final class CartViewController: UIViewController {
         
         count = CartViewModel.shared.cart.count
         
+        
         cartVM.$cart.receive(on: RunLoop.main).sink { [weak self] _ in
             self?.checkoutButton.updateAmount(newValue: self?.cartVM.cartAmount.description ?? "Error")
             if self?.cartVM.cart.count != self?.count
@@ -56,6 +56,8 @@ final class CartViewController: UIViewController {
                 self?.tableView.reloadData()
                 self?.count = CartViewModel.shared.cart.count
             }
+            self!.deliveryInfo.setAmount(amount: 8000 - self!.cartVM.cartAmount)
+            self?.tableView.reloadData()
             
         }
         .store(in: &cancellables)
@@ -175,4 +177,17 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return DeliveryInfoView(amount: 8000 - cartVM.cartAmount)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if cartVM.cartAmount >= 8000 {
+            return 0
+        } else {
+            return UITableView.automaticDimension
+        }
+    }
+    
 }
